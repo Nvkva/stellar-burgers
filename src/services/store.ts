@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import ingredientsReducer from '../features/ingredientsSlice';
 
 import {
   TypedUseSelectorHook,
@@ -10,11 +11,14 @@ import userReducer from '../features/user/userSlice';
 
 const rootReducer = combineReducers({
   user: userReducer, // Подключение userReducer
+  ingredients: ingredientsReducer, // Подключаем редюсер ингредиентов
   // Добавьте другие редьюсеры, если нужно
 });
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    rootReducer,
+  },
   devTools: process.env.NODE_ENV !== 'production'
 });
 

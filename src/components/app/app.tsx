@@ -2,6 +2,10 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ConstructorPage, Feed, Login, NotFound404, Profile } from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
+import { AppDispatch } from 'src/services/store';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { loginUser, logout } from '../../features/user/userSlice';
 
 const App = () => {
   const location = useLocation();
@@ -13,6 +17,18 @@ const App = () => {
   const onClose = () => {
       navigate(-1);
   };
+
+  const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        const userData = localStorage.getItem('token');
+        console.log(userData);
+        if (userData) {
+            dispatch(loginUser({email: 'asdad', password: 'asdads'}));
+        } else {
+            dispatch(logout());
+        }
+    }, [dispatch]);
 
 
   return (
