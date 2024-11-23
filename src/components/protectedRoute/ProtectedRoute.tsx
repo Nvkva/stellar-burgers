@@ -12,7 +12,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   children,
   onlyUnAuth = false
 }) => {
-  const { user } = useSelector((state: RootState) => state.user); // Данные о пользователе из стора
+  const { user } = useSelector((state: RootState) => state.rootReducer.user); // Данные о пользователе из стора
   const location = useLocation();
 
   if (onlyUnAuth && user) {

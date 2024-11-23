@@ -15,38 +15,48 @@ const App = () => {
   const navigate = useNavigate();
 
   const onClose = () => {
-      navigate(-1);
+    navigate(-1);
   };
 
   const dispatch: AppDispatch = useDispatch();
 
-    useEffect(() => {
-        const userData = localStorage.getItem('token');
-        console.log(userData);
-        if (userData) {
-            dispatch(loginUser({email: 'asdad', password: 'asdads'}));
-        } else {
-            dispatch(logout());
-        }
-    }, [dispatch]);
-
+  useEffect(() => {
+    const userData = localStorage.getItem('token');
+    console.log(userData);
+    if (userData) {
+      dispatch(loginUser({ email: 'asdad', password: 'asdads' }));
+    } else {
+      dispatch(logout());
+    }
+  }, [dispatch]);
 
   return (
     <div>
       <AppHeader />
       <Routes location={state?.background || location}>
         {/* Основные маршруты */}
-        <Route path="/" element={<ConstructorPage />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/feed/:number" element={<OrderInfo />} />
-        <Route path="/ingredients/:id" element={<IngredientDetails />} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path='/' element={<ConstructorPage />} />
+        <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
-          path="/profile/orders/:number"
-          element={<ProtectedRoute><OrderInfo /></ProtectedRoute>} // Защищённый маршрут
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFound404 />} />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          } // Защищённый маршрут
+        />
+        <Route path='/login' element={<Login />} />
+        <Route path='*' element={<NotFound404 />} />
       </Routes>
 
       {/* Модальные окна */}
@@ -54,7 +64,7 @@ const App = () => {
         <>
           <Routes>
             <Route
-              path="/feed/:number"
+              path='/feed/:number'
               element={
                 <Modal title={''} onClose={onClose}>
                   <OrderInfo />
@@ -62,7 +72,7 @@ const App = () => {
               }
             />
             <Route
-              path="/ingredients/:id"
+              path='/ingredients/:id'
               element={
                 <Modal title={'Детали ингредиента'} onClose={onClose}>
                   <IngredientDetails />
@@ -70,7 +80,7 @@ const App = () => {
               }
             />
             <Route
-              path="/profile/orders/:number"
+              path='/profile/orders/:number'
               element={
                 <ProtectedRoute>
                   <Modal title={''} onClose={onClose}>

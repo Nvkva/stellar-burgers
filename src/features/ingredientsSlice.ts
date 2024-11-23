@@ -11,7 +11,7 @@ interface IngredientsState {
 const initialState: IngredientsState = {
   ingredients: [],
   isLoading: false,
-  error: null,
+  error: null
 };
 
 // Асинхронная Thunk-функция для запроса ингредиентов
@@ -37,15 +37,18 @@ export const ingredientsSlice = createSlice({
         state.isLoading = true; // Включаем флаг загрузки
         state.error = null; // Сбрасываем ошибку
       })
-      .addCase(fetchIngredients.fulfilled, (state, action: PayloadAction<TIngredient[]>) => {
-        state.ingredients = action.payload; // Сохраняем ингредиенты
-        state.isLoading = false; // Выключаем флаг загрузки
-      })
+      .addCase(
+        fetchIngredients.fulfilled,
+        (state, action: PayloadAction<TIngredient[]>) => {
+          state.ingredients = action.payload; // Сохраняем ингредиенты
+          state.isLoading = false; // Выключаем флаг загрузки
+        }
+      )
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.isLoading = false; // Выключаем флаг загрузки
         state.error = action.payload as string; // Записываем ошибку
       });
-  },
+  }
 });
 
 export default ingredientsSlice.reducer;

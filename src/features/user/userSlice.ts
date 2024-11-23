@@ -10,13 +10,16 @@ export interface UserState {
 const initialState: UserState = {
   user: null,
   isLoading: false,
-  error: null,
+  error: null
 };
 
 // Асинхронная функция для логина пользователя
 export const loginUser = createAsyncThunk(
   'user/loginUser', // Название действия
-  async (userData: { email: string; password: string }, { rejectWithValue }) => {
+  async (
+    userData: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await loginUserApi(userData); // API запрос
       return response.user; // Возвращаем данные пользователя
@@ -32,7 +35,7 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -40,15 +43,18 @@ export const userSlice = createSlice({
         state.isLoading = true; // Включаем флаг загрузки
         state.error = null; // Сбрасываем ошибку
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<{ name: string }>) => {
-        state.user = action.payload; // Обновляем данные о пользователе
-        state.isLoading = false; // Выключаем флаг загрузки
-      })
+      .addCase(
+        loginUser.fulfilled,
+        (state, action: PayloadAction<{ name: string }>) => {
+          state.user = action.payload; // Обновляем данные о пользователе
+          state.isLoading = false; // Выключаем флаг загрузки
+        }
+      )
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false; // Выключаем флаг загрузки
         state.error = action.payload as string; // Записываем ошибку
       });
-  },
+  }
 });
 
 export const { logout } = userSlice.actions;

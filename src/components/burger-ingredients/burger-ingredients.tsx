@@ -19,7 +19,9 @@ export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Получаем данные из Redux store
-  const { ingredients, isLoading, error } = useSelector((state: RootState) => state.ingredients);
+  const { ingredients, isLoading, error } = useSelector(
+    (state: RootState) => state.rootReducer.ingredients
+  );
 
   useEffect(() => {
     dispatch(fetchIngredients()); // Запрашиваем ингредиенты при загрузке компонента
@@ -33,9 +35,12 @@ export const BurgerIngredients: FC = () => {
 
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);
-    if (tab === 'bun') titleBunRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (tab === 'main') titleMainRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (tab === 'sauce') titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'bun')
+      titleBunRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'main')
+      titleMainRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (tab === 'sauce')
+      titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Фильтруем ингредиенты по типу
@@ -45,7 +50,7 @@ export const BurgerIngredients: FC = () => {
 
   if (isLoading) return <p>Loading...</p>; // Отображаем индикатор загрузки
   if (error) return <p>{error}</p>; // Отображаем ошибку
-
+  // return null;
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}

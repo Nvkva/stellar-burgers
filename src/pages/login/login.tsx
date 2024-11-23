@@ -1,11 +1,11 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';  // Импортируем useDispatch
+import { useDispatch } from 'react-redux'; // Импортируем useDispatch
 import { LoginUI } from '@ui-pages';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();  // Инициализируем dispatch
+  const dispatch = useDispatch(); // Инициализируем dispatch
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -22,4 +22,4 @@ export const Login: FC = () => {
       handleSubmit={handleSubmit}
     />
   );
-}; 
+};

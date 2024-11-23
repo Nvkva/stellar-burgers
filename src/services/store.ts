@@ -11,18 +11,18 @@ import userReducer from '../features/user/userSlice';
 
 const rootReducer = combineReducers({
   user: userReducer, // Подключение userReducer
-  ingredients: ingredientsReducer, // Подключаем редюсер ингредиентов
+  ingredients: ingredientsReducer // Подключаем редюсер ингредиентов
   // Добавьте другие редьюсеры, если нужно
 });
 
 const store = configureStore({
   reducer: {
-    rootReducer,
+    rootReducer
   },
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useDispatch: () => AppDispatch = () => dispatchHook();
