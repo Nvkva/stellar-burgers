@@ -75,6 +75,11 @@ export const ingredientsSlice = createSlice({
       state.selectedIngredients = state.selectedIngredients.filter(
         (ingredient) => ingredient._id !== action.payload // Удаляем по id
       );
+
+      state.constructor = {
+        bun: state.selectedBun,
+        ingredients: state.selectedIngredients
+      };
     }
   },
   extraReducers: (builder) => {
