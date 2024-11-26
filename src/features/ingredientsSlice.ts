@@ -1,6 +1,12 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  createSelector
+} from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api'; // Импорт API метода
 import { TIngredient } from '@utils-types';
+import { RootState } from 'src/services/store';
 
 interface IngredientsState {
   ingredients: TIngredient[];
@@ -20,11 +26,21 @@ const initialState: IngredientsState = {
   selectedBun: null,
   constructor: {
     bun: null,
-    ingredients: [],
+    ingredients: []
   },
   isLoading: false,
   error: null
 };
+
+// Селектор для извлечения всех ингредиентов из состояния
+const selectIngredients = (state: RootState) =>
+  state.rootReducer.ingredients.ingredients;
+
+// Селектор для поиска ингредиента по id
+export const selectIngredientById = createSelector(
+  [selectIngredients, (_: RootState, id: string) => id], // Передаем состояние и id
+  (ingredients, id) => ingredients.find((ingredient) => ingredient._id === id)
+);
 
 // Асинхронная Thunk-функция для запроса ингредиентов
 export const fetchIngredients = createAsyncThunk(
