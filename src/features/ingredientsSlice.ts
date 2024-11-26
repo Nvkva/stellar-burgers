@@ -1,15 +1,27 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '@api'; // Импортируем API метод
+import { getIngredientsApi } from '@api'; // Импорт API метода
 import { TIngredient } from '@utils-types';
 
 interface IngredientsState {
   ingredients: TIngredient[];
+  selectedIngredients: TIngredient[]; // Новое состояние для выбранных ингредиентов
+  selectedBun?: TIngredient | null;
+  constructor: {
+    bun?: TIngredient | null;
+    ingredients: TIngredient[];
+  };
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: IngredientsState = {
   ingredients: [],
+  selectedIngredients: [], // Изначально список пуст
+  selectedBun: null,
+  constructor: {
+    bun: null,
+    ingredients: [],
+  },
   isLoading: false,
   error: null
 };
@@ -30,7 +42,25 @@ export const fetchIngredients = createAsyncThunk(
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {},
+  reducers: {
+    addIngredient: (state, action: PayloadAction<TIngredient>) => {
+      if (action.payload.type === 'bun') {
+        state.selectedBun = action.payload;
+      } else {
+        state.selectedIngredients.push(action.payload);
+      }
+
+      state.constructor = {
+        bun: state.selectedBun,
+        ingredients: state.selectedIngredients
+      };
+    },
+    removeIngredient: (state, action: PayloadAction<string>) => {
+      state.selectedIngredients = state.selectedIngredients.filter(
+        (ingredient) => ingredient._id !== action.payload // Удаляем по id
+      );
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
@@ -51,4 +81,5 @@ export const ingredientsSlice = createSlice({
   }
 });
 
+export const { addIngredient, removeIngredient } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;
