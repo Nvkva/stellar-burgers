@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { addIngredient } from '../../features/ingredientsSlice';
+import { addIngredient } from '../../features/ingredients/ingredientsSlice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {

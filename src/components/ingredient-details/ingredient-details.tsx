@@ -4,11 +4,11 @@ import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/services/store';
-import { selectIngredientById } from '../../features/ingredientsSlice';
+import { selectIngredientById } from '../../features/ingredients/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams<{ id: string }>();
-  /** TODO: взять переменную из стора */
+
   const ingredientData = useSelector((state: RootState) =>
     id ? selectIngredientById(state, id) : null
   );

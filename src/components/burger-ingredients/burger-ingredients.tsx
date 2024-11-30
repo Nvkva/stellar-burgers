@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchIngredients } from '../../features/ingredientsSlice'; // Импортируем Thunk
+import { fetchIngredients } from '../../features/ingredients/ingredientsSlice'; // Импортируем Thunk
 import { RootState, AppDispatch } from '../../services/store';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';

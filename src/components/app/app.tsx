@@ -1,6 +1,14 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { ConstructorPage, Feed, Login, NotFound404, Profile } from '@pages';
+import {
+  ConstructorPage,
+  Feed,
+  Login,
+  NotFound404,
+  Profile,
+  Register,
+  ResetPassword
+} from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { AppDispatch } from 'src/services/store';
 import { useDispatch } from 'react-redux';
@@ -22,7 +30,6 @@ const App = () => {
 
   useEffect(() => {
     const userData = localStorage.getItem('token');
-    console.log(userData);
     if (userData) {
       dispatch(loginUser({ email: 'asdad', password: 'asdads' }));
     } else {
@@ -39,6 +46,8 @@ const App = () => {
         <Route path='/feed' element={<Feed />} />
         <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/forgot-password' element={<ResetPassword />} />
         <Route
           path='/profile'
           element={
