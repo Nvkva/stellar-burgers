@@ -1,4 +1,4 @@
-import { loginUserApi } from '@api';
+import { loginUserApi, registerUserApi } from '@api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 export interface UserState {
@@ -25,6 +25,22 @@ export const loginUser = createAsyncThunk(
       return response.user; // Возвращаем данные пользователя
     } catch (error) {
       return rejectWithValue('Failed to login'); // Возвращаем ошибку в случае неудачи
+    }
+  }
+);
+
+// Асинхронная функция для логина пользователя
+export const registerUser = createAsyncThunk(
+  'user/registerUser', // Название действия
+  async (
+    userData: { name: string; email: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await registerUserApi(userData); // API запрос
+      return response.user; // Возвращаем данные пользователя
+    } catch (error) {
+      return rejectWithValue('Failed to registr'); // Возвращаем ошибку в случае неудачи
     }
   }
 );

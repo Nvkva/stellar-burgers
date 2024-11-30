@@ -1,15 +1,17 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux'; // Импортируем useDispatch
+import { useDispatch } from 'react-redux';
 import { LoginUI } from '@ui-pages';
+import { loginUser } from '../../features/user/userSlice';
+import { AppDispatch } from 'src/services/store';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch(); // Инициализируем dispatch
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    // Пример данных, вы можете передать реальные данные после аутентификации
+    dispatch(loginUser({ email: email, password: password }));
   };
 
   return (
