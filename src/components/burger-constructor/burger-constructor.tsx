@@ -1,8 +1,10 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/services/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'src/services/store';
+import { useNavigate } from 'react-router-dom';
+import { createOrder } from 'src/features/feed/feedSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -10,11 +12,22 @@ export const BurgerConstructor: FC = () => {
     (state: RootState) => state.rootReducer.ingredients.constructor
   );
 
-  const orderRequest = false;
+  const { user } = useSelector((state: RootState) => state.rootReducer.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const orderRequest = useSelector(
+    (state: RootState) => state.rootReducer.orders.isLoading
+  );
 
   const orderModalData = null;
 
   const onOrderClick = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      // dispatch(createOrder())
+    }
     if (!constructorItems?.bun || orderRequest) return;
   };
   const closeOrderModal = () => {};

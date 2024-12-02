@@ -1,4 +1,4 @@
-import { getFeedsApi } from '@api';
+import { getFeedsApi, orderBurgerApi } from '@api';
 import {
   createAsyncThunk,
   createSelector,
@@ -6,7 +6,7 @@ import {
   PayloadAction
 } from '@reduxjs/toolkit';
 import { TOrder, TOrdersData } from '@utils-types';
-import { RootState } from 'src/services/store';
+import { RootState } from '../../services/store';
 
 interface FeedState {
   feed: TOrdersData;
@@ -39,6 +39,18 @@ export const fetchOrders = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue('Failed to fetch orders');
+    }
+  }
+);
+
+export const createOrder = createAsyncThunk(
+  'feed/createOrder',
+  async (ingredientsData: string[], { rejectWithValue }) => {
+    try {
+      const data = await orderBurgerApi(ingredientsData);
+      return data;
+    } catch (error) {
+      return rejectWithValue('Failed to create order');
     }
   }
 );

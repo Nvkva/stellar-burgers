@@ -3,17 +3,15 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import {
   ConstructorPage,
   Feed,
+  ForgotPassword,
   Login,
   NotFound404,
   Profile,
+  ProfileOrders,
   Register,
   ResetPassword
 } from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
-import { AppDispatch } from 'src/services/store';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { loginUser, logout } from '../../features/user/userSlice';
 
 const App = () => {
   const location = useLocation();
@@ -26,17 +24,6 @@ const App = () => {
     navigate(-1);
   };
 
-  const dispatch: AppDispatch = useDispatch();
-
-  useEffect(() => {
-    const userData = localStorage.getItem('token');
-    if (userData) {
-      dispatch(loginUser({ email: 'asdad', password: 'asdads' }));
-    } else {
-      dispatch(logout());
-    }
-  }, [dispatch]);
-
   return (
     <div>
       <AppHeader />
@@ -44,10 +31,10 @@ const App = () => {
         {/* Основные маршруты */}
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/forgot-password' element={<ResetPassword />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
         <Route
           path='/profile'
           element={
@@ -57,14 +44,23 @@ const App = () => {
           }
         />
         <Route
+          path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
               <OrderInfo />
             </ProtectedRoute>
-          } // Защищённый маршрут
+          }
         />
-        <Route path='/login' element={<Login />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
