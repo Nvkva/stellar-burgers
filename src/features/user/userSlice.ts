@@ -2,7 +2,8 @@ import {
   loginUserApi,
   registerUserApi,
   updateUserApi,
-  getOrdersApi
+  getOrdersApi,
+  logoutApi
 } from '@api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
@@ -64,14 +65,22 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  'user/logoutUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await logoutApi();
+      return response;
+    } catch (error) {
+      return rejectWithValue('Failed to logout user');
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -114,8 +123,21 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
+
+    builder
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.isLoading = false;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   }
 });
 
-export const { logout } = userSlice.actions;
 export default userSlice.reducer;
