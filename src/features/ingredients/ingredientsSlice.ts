@@ -11,7 +11,6 @@ import { RootState } from 'src/services/store';
 interface IngredientsState {
   ingredients: TIngredient[];
   selectedIngredients: TIngredient[]; // Новое состояние для выбранных ингредиентов
-  selectedBun?: TIngredient | null;
   constructor: {
     bun?: TIngredient | null;
     ingredients: TIngredient[];
@@ -23,7 +22,6 @@ interface IngredientsState {
 const initialState: IngredientsState = {
   ingredients: [],
   selectedIngredients: [], // Изначально список пуст
-  selectedBun: null,
   constructor: {
     bun: null,
     ingredients: []
@@ -60,25 +58,31 @@ export const ingredientsSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TIngredient>) => {
-      if (action.payload.type === 'bun') {
-        state.selectedBun = action.payload;
-      } else {
-        state.selectedIngredients.push(action.payload);
-      }
+      const ingredient = action.payload;
 
-      state.constructor = {
-        bun: state.selectedBun,
-        ingredients: state.selectedIngredients
-      };
+      if (ingredient.type === 'bun') {
+        // Добавление/замена булки
+        state.constructor.bun = ingredient;
+      } else {
+        // Добавление ингредиента
+        state.constructor.ingredients.push(ingredient);
+      }
+      state.selectedIngredients.push(action.payload);
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
       state.selectedIngredients = state.selectedIngredients.filter(
         (ingredient) => ingredient._id !== action.payload // Удаляем по id
       );
 
+      state.constructor.ingredients = state.constructor.ingredients.filter(
+        (ingredient) => ingredient._id !== action.payload
+      );
+    },
+    resetConstructor: (state) => {
+      // Сброс конструктора (булка и ингредиенты)
       state.constructor = {
-        bun: state.selectedBun,
-        ingredients: state.selectedIngredients
+        bun: null,
+        ingredients: []
       };
     }
   },

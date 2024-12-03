@@ -31,29 +31,29 @@ const App = () => {
         {/* Основные маршруты */}
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route 
-        path='/login'
-        element={
-          <ProtectedRoute onlyUnAuth>
-            <Login />
-          </ProtectedRoute>
-        }
+        <Route
+          path='/login'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
         />
         <Route
-        path='/register'
-        element={
-          <ProtectedRoute onlyUnAuth>
-        <Register />
-        </ProtectedRoute>
-      }
-      />
-        <Route 
-        path='/forgot-password' 
-        element={
-          <ProtectedRoute onlyUnAuth>
-        <ForgotPassword />
-        </ProtectedRoute>
-        } 
+          path='/register'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/reset-password'
@@ -63,7 +63,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path='/profile'
           element={
             <ProtectedRoute>
@@ -71,7 +71,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path='/profile/orders'
           element={
             <ProtectedRoute>
