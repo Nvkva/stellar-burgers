@@ -58,7 +58,6 @@ export const OrderInfo: FC = () => {
       total
     };
   }, [orderData, ingredients]);
-  console.log('orderInfo :>> ', orderInfo);
 
   if (!orderInfo) {
     return <Preloader />;
