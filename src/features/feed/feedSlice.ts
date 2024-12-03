@@ -10,6 +10,7 @@ import { RootState } from '../../services/store';
 
 interface FeedState {
   feed: TOrdersData;
+  order: TOrder | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -20,6 +21,7 @@ const initialState: FeedState = {
     total: 0,
     totalToday: 0
   },
+  order: null,
   isLoading: false,
   error: null
 };
@@ -48,7 +50,7 @@ export const createOrder = createAsyncThunk(
   async (ingredientsData: string[], { rejectWithValue }) => {
     try {
       const data = await orderBurgerApi(ingredientsData);
-      return data;
+      return data.order;
     } catch (error) {
       return rejectWithValue('Failed to create order');
     }
@@ -58,7 +60,11 @@ export const createOrder = createAsyncThunk(
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
-  reducers: {},
+  reducers: {
+    resetOrderData: (state) => {
+      state.order = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrders.pending, (state) => {
@@ -76,7 +82,25 @@ export const feedSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
+
+    builder
+      .addCase(createOrder.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        createOrder.fulfilled,
+        (state, action: PayloadAction<TOrder>) => {
+          state.order = action.payload;
+          state.isLoading = false;
+        }
+      )
+      .addCase(createOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   }
 });
 
+export const { resetOrderData } = feedSlice.actions;
 export default feedSlice.reducer;

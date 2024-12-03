@@ -106,5 +106,6 @@ export const ingredientsSlice = createSlice({
   }
 });
 
-export const { addIngredient, removeIngredient } = ingredientsSlice.actions;
+export const { addIngredient, removeIngredient, resetConstructor } =
+  ingredientsSlice.actions;
 export default ingredientsSlice.reducer;
