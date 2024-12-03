@@ -1,8 +1,9 @@
-import { loginUserApi, registerUserApi } from '@api';
+import { loginUserApi, registerUserApi, updateUserApi } from '@api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { TUser } from '@utils-types';
 
 export interface UserState {
-  user: { name: string } | null;
+  user: TUser | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -13,34 +14,47 @@ const initialState: UserState = {
   error: null
 };
 
-// Асинхронная функция для логина пользователя
 export const loginUser = createAsyncThunk(
-  'user/loginUser', // Название действия
+  'user/loginUser',
   async (
     userData: { email: string; password: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await loginUserApi(userData); // API запрос
-      return response.user; // Возвращаем данные пользователя
+      const response = await loginUserApi(userData);
+      return response.user;
     } catch (error) {
-      return rejectWithValue('Failed to login'); // Возвращаем ошибку в случае неудачи
+      return rejectWithValue('Failed to login');
     }
   }
 );
 
-// Асинхронная функция для логина пользователя
 export const registerUser = createAsyncThunk(
-  'user/registerUser', // Название действия
+  'user/registerUser',
   async (
     userData: { name: string; email: string; password: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await registerUserApi(userData); // API запрос
-      return { name: response.user.name }; // Возвращаем данные пользователя
+      const response = await registerUserApi(userData);
+      return response.user;
     } catch (error) {
-      return rejectWithValue('Failed to register'); // Возвращаем ошибку в случае неудачи
+      return rejectWithValue('Failed to register');
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async (
+    userData: { name: string; email: string; password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await updateUserApi(userData);
+      return response.user;
+    } catch (error) {
+      return rejectWithValue('Failed to update user data');
     }
   }
 );
@@ -56,33 +70,44 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isLoading = true; // Включаем флаг загрузки
-        state.error = null; // Сбрасываем ошибку
+        state.isLoading = true;
+        state.error = null;
       })
-      .addCase(
-        loginUser.fulfilled,
-        (state, action: PayloadAction<{ name: string }>) => {
-          state.user = action.payload; // Обновляем данные о пользователе
-          state.isLoading = false; // Выключаем флаг загрузки
-        }
-      )
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<TUser>) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
       .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false; // Выключаем флаг загрузки
-        state.error = action.payload as string; // Записываем ошибку
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
 
     builder
       .addCase(registerUser.pending, (state) => {
-        state.isLoading = true; // Включаем флаг загрузки
-        state.error = null; // Сбрасываем ошибку
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.user = action.payload; // Обновляем данные о пользователе
-        state.isLoading = false; // Выключаем флаг загрузки
+        state.user = action.payload;
+        state.isLoading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.isLoading = false; // Выключаем флаг загрузки
-        state.error = action.payload as string; // Записываем ошибку
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   }
 });

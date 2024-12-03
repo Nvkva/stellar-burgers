@@ -8,6 +8,12 @@ import {
 import { TOrder, TOrdersData } from '@utils-types';
 import { RootState } from '../../services/store';
 
+const DEFAULT_FEED_VALUE: TOrdersData = {
+  orders: [],
+  total: 0,
+  totalToday: 0
+};
+
 interface FeedState {
   feed: TOrdersData;
   order: TOrder | null;
@@ -16,11 +22,7 @@ interface FeedState {
 }
 
 const initialState: FeedState = {
-  feed: {
-    orders: [],
-    total: 0,
-    totalToday: 0
-  },
+  feed: DEFAULT_FEED_VALUE,
   order: null,
   isLoading: false,
   error: null
@@ -68,6 +70,7 @@ export const feedSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrders.pending, (state) => {
+        state.feed = DEFAULT_FEED_VALUE;
         state.isLoading = true;
         state.error = null;
       })
