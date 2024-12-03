@@ -1,4 +1,4 @@
-import { getFeedsApi, orderBurgerApi } from '@api';
+import { getFeedsApi, getOrdersApi, orderBurgerApi } from '@api';
 import {
   createAsyncThunk,
   createSelector,
@@ -59,6 +59,18 @@ export const createOrder = createAsyncThunk(
   }
 );
 
+export const getUserOrders = createAsyncThunk(
+  'user/getUserOrders',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getOrdersApi();
+      return response;
+    } catch (error) {
+      return rejectWithValue('Failed to get user orders');
+    }
+  }
+);
+
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
@@ -99,6 +111,20 @@ export const feedSlice = createSlice({
         }
       )
       .addCase(createOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(getUserOrders.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserOrders.fulfilled, (state, action) => {
+        state.feed.orders = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getUserOrders.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

@@ -1,6 +1,11 @@
-import { loginUserApi, registerUserApi, updateUserApi } from '@api';
+import {
+  loginUserApi,
+  registerUserApi,
+  updateUserApi,
+  getOrdersApi
+} from '@api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 
 export interface UserState {
   user: TUser | null;
