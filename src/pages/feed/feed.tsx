@@ -1,10 +1,8 @@
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders } from '../../features/feed/feedSlice';
-import { AppDispatch, RootState } from '../../services/store';
+import { RootState, useDispatch, useSelector } from '../../services/store';
 import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 export const Feed: FC = () => {
@@ -12,7 +10,7 @@ export const Feed: FC = () => {
     (state: RootState) => state.rootReducer.orders.feed
   );
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchOrders()); // Запрашиваем ингредиенты при загрузке компонента

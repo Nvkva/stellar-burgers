@@ -1,8 +1,7 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
+import { AppDispatch, RootState, useDispatch, useSelector } from '../../services/store';
 import { getUserOrders } from '../../features/feed/feedSlice';
 
 export const ProfileOrders: FC = () => {
@@ -11,7 +10,7 @@ export const ProfileOrders: FC = () => {
     (state: RootState) => state.rootReducer.orders.feed.orders
   );
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUserOrders());

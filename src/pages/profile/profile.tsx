@@ -1,8 +1,8 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
+import { AppDispatch, RootState, useDispatch } from '../../services/store';
 import { updateUser } from '../../features/user/userSlice';
+import { useSelector } from 'react-redux';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
@@ -14,7 +14,7 @@ export const Profile: FC = () => {
     password: ''
   });
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setFormValue((prevState) => ({

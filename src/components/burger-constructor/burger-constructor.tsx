@@ -1,8 +1,6 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'src/services/store';
+import { RootState, useDispatch, useSelector } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../../features/feed/feedSlice';
 import { resetOrderData } from '../../features/feed/feedSlice';
@@ -16,7 +14,7 @@ export const BurgerConstructor: FC = () => {
 
   const { user } = useSelector((state: RootState) => state.rootReducer.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const orderRequest = useSelector(
     (state: RootState) => state.rootReducer.orders.isLoading

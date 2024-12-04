@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { fetchIngredients } from '../../features/ingredients/ingredientsSlice'; // Импортируем Thunk
-import { RootState, AppDispatch } from '../../services/store';
+import { RootState, useDispatch, useSelector } from '../../services/store';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useInView } from 'react-intersection-observer';
@@ -16,7 +15,7 @@ export const BurgerIngredients: FC = () => {
   const [mainsRef, inViewMains] = useInView({ threshold: 0 });
   const [saucesRef, inViewSauces] = useInView({ threshold: 0 });
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   // Получаем данные из Redux store
   const { ingredients, isLoading, error } = useSelector(

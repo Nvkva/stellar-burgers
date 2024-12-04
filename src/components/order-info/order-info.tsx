@@ -3,8 +3,7 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
+import { RootState, useSelector } from '../../services/store';
 import { selectOrderById } from '../../features/feed/feedSlice';
 
 export const OrderInfo: FC = () => {

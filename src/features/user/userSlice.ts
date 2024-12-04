@@ -3,7 +3,8 @@ import {
   registerUserApi,
   updateUserApi,
   getOrdersApi,
-  logoutApi
+  logoutApi,
+  getUserApi
 } from '@api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
@@ -77,6 +78,18 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getUserApi();
+      return response.user;
+    } catch (error) {
+      return rejectWithValue('Failed to get user');
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -134,6 +147,20 @@ export const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+      
+      builder
+      .addCase(getUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

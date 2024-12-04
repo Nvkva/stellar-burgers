@@ -12,6 +12,9 @@ import {
   ResetPassword
 } from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
+import { useDispatch } from '../../services/store';
+import { useEffect } from 'react';
+import { getUser } from '../../features/user/userSlice';
 
 const App = () => {
   const location = useLocation();
@@ -19,6 +22,10 @@ const App = () => {
   // Определяем фон (background), если Modal должен открываться поверх текущей страницы
   const state = location.state as { background?: Location };
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUser()); // Запрашиваем ингредиенты при загрузке компонента
+  }, [dispatch]);
 
   const onClose = () => {
     navigate(-1);

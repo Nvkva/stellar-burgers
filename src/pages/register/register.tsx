@@ -1,8 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { registerUser } from '../../features/user/userSlice';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../services/store';
+import { AppDispatch, useDispatch } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
 
 export const Register: FC = () => {
@@ -10,7 +9,7 @@ export const Register: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();

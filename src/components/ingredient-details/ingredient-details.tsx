@@ -2,8 +2,7 @@ import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/services/store';
+import { RootState, useSelector } from '../../services/store';
 import { selectIngredientById } from '../../features/ingredients/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
