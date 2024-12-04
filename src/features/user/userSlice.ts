@@ -150,8 +150,8 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       });
-      
-      builder
+
+    builder
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;

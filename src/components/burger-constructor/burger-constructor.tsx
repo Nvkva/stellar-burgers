@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { RootState, useDispatch, useSelector } from '../../services/store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createOrder } from '../../features/feed/feedSlice';
 import { resetOrderData } from '../../features/feed/feedSlice';
 import { resetConstructor } from '../../features/ingredients/ingredientsSlice';
@@ -15,6 +15,7 @@ export const BurgerConstructor: FC = () => {
   const { user } = useSelector((state: RootState) => state.rootReducer.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const orderRequest = useSelector(
     (state: RootState) => state.rootReducer.orders.isLoading
@@ -30,7 +31,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!user) {
-      navigate('/login');
+      navigate('/login', { state: { from: location.pathname } });
     } else {
       const ids = selectedIngredients.map((item) => item._id);
       dispatch(createOrder(ids));

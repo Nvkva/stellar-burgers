@@ -8,11 +8,15 @@ export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
+    console.log('kjkjk');
+
     const result = await dispatch(logoutUser());
     if (result) {
-      navigate('/login');
+      console.log('location.pathname :>> ', location.pathname);
+      navigate('/login', { state: { from: location.pathname } });
     }
   };
 
