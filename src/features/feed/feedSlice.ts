@@ -15,6 +15,7 @@ const DEFAULT_FEED_VALUE: TOrdersData = {
 };
 
 interface FeedState {
+  selectedOrderId: string | null;
   feed: TOrdersData;
   order: TOrder | null;
   isLoading: boolean;
@@ -22,6 +23,7 @@ interface FeedState {
 }
 
 const initialState: FeedState = {
+  selectedOrderId: null,
   feed: DEFAULT_FEED_VALUE,
   order: null,
   isLoading: false,
@@ -31,7 +33,7 @@ const initialState: FeedState = {
 const selectOrders = (state: RootState) => state.rootReducer.orders.feed;
 
 export const selectOrderById = createSelector(
-  [selectOrders, (_: RootState, id: string) => id], // Передаем состояние и id
+  [selectOrders, (_: RootState, id: string) => id],
   (feed, id) => feed.orders.find((order) => order.number === Number(id))
 );
 
@@ -77,6 +79,9 @@ export const feedSlice = createSlice({
   reducers: {
     resetOrderData: (state) => {
       state.order = null;
+    },
+    setSelectedOrderId: (state, action: PayloadAction<string | null>) => {
+      state.selectedOrderId = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -131,5 +136,5 @@ export const feedSlice = createSlice({
   }
 });
 
-export const { resetOrderData } = feedSlice.actions;
+export const { resetOrderData, setSelectedOrderId } = feedSlice.actions;
 export default feedSlice.reducer;

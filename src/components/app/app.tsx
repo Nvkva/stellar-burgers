@@ -12,7 +12,7 @@ import {
   ResetPassword
 } from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
-import { useDispatch } from '../../services/store';
+import { RootState, useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { getUser } from '../../features/user/userSlice';
 import { OrderPage } from '../order-page/order-page';
@@ -28,6 +28,10 @@ const App = () => {
   useEffect(() => {
     dispatch(getUser()); // Запрашиваем ингредиенты при загрузке компонента
   }, [dispatch]);
+
+  const selectedOrderId = useSelector(
+    (state: RootState) => state.rootReducer.orders.selectedOrderId
+  );
 
   const onClose = () => {
     navigate(-1);
@@ -122,7 +126,10 @@ const App = () => {
             <Route
               path='/feed/:number'
               element={
-                <Modal title={''} onClose={onClose}>
+                <Modal
+                  title={`#${String(selectedOrderId).padStart(6, '0')}`}
+                  onClose={onClose}
+                >
                   <OrderInfo />
                 </Modal>
               }
@@ -139,7 +146,10 @@ const App = () => {
               path='/profile/orders/:number'
               element={
                 <ProtectedRoute>
-                  <Modal title={''} onClose={onClose}>
+                  <Modal
+                    title={`#${String(selectedOrderId).padStart(6, '0')}`}
+                    onClose={onClose}
+                  >
                     <OrderInfo />
                   </Modal>
                 </ProtectedRoute>

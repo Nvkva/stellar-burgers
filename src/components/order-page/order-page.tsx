@@ -11,5 +11,9 @@ export const OrderPage: FC<OrderPageProps> = ({ children }) => {
     number ? selectOrderById(state, number) : null
   );
 
-  return <OrderPageUI title={`#${orderData?.number}`}> {children}</OrderPageUI>;
+  return (
+    <OrderPageUI title={`#${String(orderData?.number).padStart(6, '0')}`}>
+      {children}
+    </OrderPageUI>
+  );
 };

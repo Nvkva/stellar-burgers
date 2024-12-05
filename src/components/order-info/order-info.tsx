@@ -4,7 +4,11 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { RootState, useDispatch, useSelector } from '../../services/store';
-import { fetchOrders, selectOrderById } from '../../features/feed/feedSlice';
+import {
+  fetchOrders,
+  selectOrderById,
+  setSelectedOrderId
+} from '../../features/feed/feedSlice';
 import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
@@ -12,6 +16,10 @@ export const OrderInfo: FC = () => {
   const orderData = useSelector((state: RootState) =>
     number ? selectOrderById(state, number) : null
   );
+
+  useEffect(() => {
+    dispatch(setSelectedOrderId(number ?? null));
+  }, [number]);
 
   const ingredients: TIngredient[] = useSelector(
     (state: RootState) => state.rootReducer.ingredients.ingredients
