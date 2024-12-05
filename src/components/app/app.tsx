@@ -15,6 +15,8 @@ import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getUser } from '../../features/user/userSlice';
+import { OrderPage } from '../order-page/order-page';
+import { IngredientsDetailsPage } from '../ingredients-details-page/ingredients-details-page';
 
 const App = () => {
   const location = useLocation();
@@ -86,8 +88,22 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/feed/:number'
+          element={
+            <OrderPage>
+              <OrderInfo />
+            </OrderPage>
+          }
+        />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <IngredientsDetailsPage>
+              <IngredientDetails />
+            </IngredientsDetailsPage>
+          }
+        />
         <Route
           path='/profile/orders/:number'
           element={
