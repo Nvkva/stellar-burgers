@@ -12,12 +12,14 @@ import { TOrder, TUser } from '@utils-types';
 export interface UserState {
   user: TUser | null;
   isLoading: boolean;
+  isUserDataOnInitLoaded: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
   user: null,
   isLoading: false,
+  isUserDataOnInitLoaded: false,
   error: null
 };
 
@@ -159,6 +161,9 @@ export const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoading = false;
+        if (!state.isUserDataOnInitLoaded) {
+          state.isUserDataOnInitLoaded = true;
+        }
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;

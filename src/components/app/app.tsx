@@ -19,6 +19,10 @@ import { OrderPage } from '../order-page/order-page';
 import { IngredientsDetailsPage } from '../ingredients-details-page/ingredients-details-page';
 
 const App = () => {
+  const selectedOrderId = useSelector(
+    (state: RootState) => state.rootReducer.orders.selectedOrderId
+  );
+
   const location = useLocation();
 
   // Определяем фон (background), если Modal должен открываться поверх текущей страницы
@@ -28,10 +32,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getUser()); // Запрашиваем ингредиенты при загрузке компонента
   }, [dispatch]);
-
-  const selectedOrderId = useSelector(
-    (state: RootState) => state.rootReducer.orders.selectedOrderId
-  );
 
   const onClose = () => {
     navigate(-1);
