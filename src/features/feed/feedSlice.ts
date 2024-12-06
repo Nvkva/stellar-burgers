@@ -94,6 +94,7 @@ export const feedSlice = createSlice({
       .addCase(
         fetchOrders.fulfilled,
         (state, action: PayloadAction<TOrdersData>) => {
+          console.log('action.payload :>> ', action.payload);
           state.feed = action.payload;
           state.isLoading = false;
         }

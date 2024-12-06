@@ -23,10 +23,6 @@ export const BurgerIngredients: FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchIngredients()); // Запрашиваем ингредиенты при загрузке компонента
-  }, [dispatch]);
-
-  useEffect(() => {
     if (inViewBuns) setCurrentTab('bun');
     else if (inViewSauces) setCurrentTab('sauce');
     else if (inViewMains) setCurrentTab('main');

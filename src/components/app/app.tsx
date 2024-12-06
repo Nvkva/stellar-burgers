@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { getUser } from '../../features/user/userSlice';
 import { OrderPage } from '../order-page/order-page';
 import { IngredientsDetailsPage } from '../ingredients-details-page/ingredients-details-page';
+import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 const App = () => {
   const selectedOrderId = useSelector(
@@ -30,7 +31,8 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUser()); // Запрашиваем ингредиенты при загрузке компонента
+    dispatch(fetchIngredients());
+    dispatch(getUser());
   }, [dispatch]);
 
   const onClose = () => {
@@ -112,7 +114,9 @@ const App = () => {
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
-              <OrderInfo />
+              <OrderPage>
+                <OrderInfo />
+              </OrderPage>
             </ProtectedRoute>
           } // Защищённый маршрут
         />

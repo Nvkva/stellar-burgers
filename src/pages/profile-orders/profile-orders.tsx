@@ -8,6 +8,7 @@ import {
   useSelector
 } from '../../services/store';
 import { getUserOrders } from '../../features/feed/feedSlice';
+import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 export const ProfileOrders: FC = () => {
   /** TODO: взять переменную из стора */
@@ -19,6 +20,7 @@ export const ProfileOrders: FC = () => {
 
   useEffect(() => {
     dispatch(getUserOrders());
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   return <ProfileOrdersUI orders={orders} />;

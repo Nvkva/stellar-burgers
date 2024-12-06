@@ -70,7 +70,7 @@ export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!ingredients.length) {
+    if (!ingredients.length || !orderData) {
       dispatch(fetchOrders());
       dispatch(fetchIngredients());
     }
