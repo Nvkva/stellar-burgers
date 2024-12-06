@@ -37,39 +37,24 @@ export const selectOrderById = createSelector(
   (feed, id) => feed.orders.find((order) => order.number === Number(id))
 );
 
-export const fetchOrders = createAsyncThunk(
-  'feed/fetchOrders',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await getFeedsApi();
-      return data;
-    } catch (error) {
-      return rejectWithValue('Failed to fetch orders');
-    }
-  }
-);
+export const fetchOrders = createAsyncThunk('feed/fetchOrders', async () => {
+  const data = await getFeedsApi();
+  return data;
+});
 
 export const createOrder = createAsyncThunk(
   'feed/createOrder',
-  async (ingredientsData: string[], { rejectWithValue }) => {
-    try {
-      const data = await orderBurgerApi(ingredientsData);
-      return data.order;
-    } catch (error) {
-      return rejectWithValue('Failed to create order');
-    }
+  async (ingredientsData: string[]) => {
+    const data = await orderBurgerApi(ingredientsData);
+    return data.order;
   }
 );
 
 export const getUserOrders = createAsyncThunk(
   'user/getUserOrders',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getOrdersApi();
-      return response;
-    } catch (error) {
-      return rejectWithValue('Failed to get user orders');
-    }
+  async () => {
+    const response = await getOrdersApi();
+    return response;
   }
 );
 

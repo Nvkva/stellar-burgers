@@ -7,10 +7,11 @@ import {
 import { getIngredientsApi } from '@api'; // Импорт API метода
 import { TIngredient } from '@utils-types';
 import { RootState } from 'src/services/store';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IngredientsState {
   ingredients: TIngredient[];
-  selectedIngredients: TIngredient[]; // Новое состояние для выбранных ингредиентов
+  selectedIngredients: TIngredient[];
   constructor: {
     bun?: TIngredient | null;
     ingredients: TIngredient[];
@@ -21,7 +22,7 @@ interface IngredientsState {
 
 const initialState: IngredientsState = {
   ingredients: [],
-  selectedIngredients: [], // Изначально список пуст
+  selectedIngredients: [],
   constructor: {
     bun: null,
     ingredients: []
@@ -43,13 +44,9 @@ export const selectIngredientById = createSelector(
 // Асинхронная Thunk-функция для запроса ингредиентов
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await getIngredientsApi();
-      return data; // Возвращаем данные ингредиентов
-    } catch (error) {
-      return rejectWithValue('Failed to fetch ingredients'); // Обрабатываем ошибку
-    }
+  async (_) => {
+    const data = await getIngredientsApi();
+    return data; // Возвращаем данные ингредиентов
   }
 );
 
@@ -57,25 +54,34 @@ export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    addIngredient: (state, action: PayloadAction<TIngredient>) => {
-      const ingredient = action.payload;
+    addIngredient: {
+      reducer: (
+        state,
+        action: PayloadAction<TIngredient & { uniqueId: string }>
+      ) => {
+        const ingredient = action.payload;
 
-      if (ingredient.type === 'bun') {
-        // Добавление/замена булки
-        state.constructor.bun = ingredient;
-      } else {
-        // Добавление ингредиента
-        state.constructor.ingredients.push(ingredient);
-      }
-      state.selectedIngredients.push(action.payload);
+        if (ingredient.type === 'bun') {
+          // Добавление/замена булки
+          state.constructor.bun = ingredient;
+        } else {
+          // Добавление ингредиента с уникальным id
+          state.constructor.ingredients.push(ingredient);
+        }
+        state.selectedIngredients.push(ingredient);
+      },
+      prepare: (ingredient: TIngredient) =>
+        // Подготовка payload с добавлением uniqueId
+        ({ payload: { ...ingredient, uniqueId: uuidv4() } })
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
+      // Удаление ингредиента из selectedIngredients и constructor.ingredients
       state.selectedIngredients = state.selectedIngredients.filter(
-        (ingredient) => ingredient._id !== action.payload // Удаляем по id
+        (ingredient) => ingredient.uniqueId !== action.payload
       );
 
       state.constructor.ingredients = state.constructor.ingredients.filter(
-        (ingredient) => ingredient._id !== action.payload
+        (ingredient) => ingredient.uniqueId !== action.payload
       );
     },
     resetConstructor: (state) => {

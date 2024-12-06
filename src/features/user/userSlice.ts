@@ -2,7 +2,6 @@ import {
   loginUserApi,
   registerUserApi,
   updateUserApi,
-  getOrdersApi,
   logoutApi,
   getUserApi
 } from '@api';
@@ -25,72 +24,37 @@ const initialState: UserState = {
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
-  async (
-    userData: { email: string; password: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await loginUserApi(userData);
-      return response.user;
-    } catch (error) {
-      return rejectWithValue('Failed to login');
-    }
+  async (userData: { email: string; password: string }) => {
+    const response = await loginUserApi(userData);
+    return response.user;
   }
 );
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  async (
-    userData: { name: string; email: string; password: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await registerUserApi(userData);
-      return response.user;
-    } catch (error) {
-      return rejectWithValue('Failed to register');
-    }
+  async (userData: { name: string; email: string; password: string }) => {
+    const response = await registerUserApi(userData);
+    return response.user;
   }
 );
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (
-    userData: { name: string; email: string; password: string },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await updateUserApi(userData);
-      return response.user;
-    } catch (error) {
-      return rejectWithValue('Failed to update user data');
-    }
+  async (userData: { name: string; email: string; password: string }) => {
+    const response = await updateUserApi(userData);
+    return response.user;
   }
 );
 
-export const logoutUser = createAsyncThunk(
-  'user/logoutUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await logoutApi();
-      return response;
-    } catch (error) {
-      return rejectWithValue('Failed to logout user');
-    }
-  }
-);
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  const response = await logoutApi();
+  return response;
+});
 
-export const getUser = createAsyncThunk(
-  'user/getUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await getUserApi();
-      return response.user;
-    } catch (error) {
-      return rejectWithValue('Failed to get user');
-    }
-  }
-);
+export const getUser = createAsyncThunk('user/getUser', async (_) => {
+  const response = await getUserApi();
+  return response.user;
+});
 
 export const userSlice = createSlice({
   name: 'user',
