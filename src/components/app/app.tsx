@@ -12,7 +12,7 @@ import {
   ResetPassword
 } from '@pages';
 import { ProtectedRoute } from '../protectedRoute/ProtectedRoute';
-import { RootState, useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { getUser } from '../../features/user/userSlice';
 import { OrderPage } from '../order-page/order-page';
@@ -21,7 +21,7 @@ import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 const App = () => {
   const selectedOrderId = useSelector(
-    (state: RootState) => state.rootReducer.orders.selectedOrderId
+    (state) => state.rootReducer.orders.selectedOrderId
   );
 
   const location = useLocation();

@@ -3,17 +3,15 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { RootState, useDispatch, useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
-  fetchOrders,
   selectOrderById,
   setSelectedOrderId
 } from '../../features/feed/feedSlice';
-import { fetchIngredients } from '../../features/ingredients/ingredientsSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
-  const orderData = useSelector((state: RootState) =>
+  const orderData = useSelector((state) =>
     number ? selectOrderById(state, number) : null
   );
 
@@ -22,7 +20,7 @@ export const OrderInfo: FC = () => {
   }, [number]);
 
   const ingredients: TIngredient[] = useSelector(
-    (state: RootState) => state.rootReducer.ingredients.ingredients
+    (state) => state.rootReducer.ingredients.ingredients
   );
 
   /* Готовим данные для отображения */
@@ -68,13 +66,6 @@ export const OrderInfo: FC = () => {
   }, [orderData, ingredients]);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!ingredients.length || !orderData) {
-      dispatch(fetchOrders());
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch]);
 
   if (!orderInfo) {
     return <Preloader />;

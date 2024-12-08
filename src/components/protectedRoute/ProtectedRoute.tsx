@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { RootState, useSelector } from '../../services/store'; // Импортируем ваш Redux store
+import { useSelector } from '../../services/store'; // Импортируем ваш Redux store
 import { Preloader } from '@ui';
 
 interface ProtectedRouteProps {
@@ -12,10 +12,10 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   children,
   onlyUnAuth = false
 }) => {
-  const { user } = useSelector((state: RootState) => state.rootReducer.user); // Данные о пользователе из стора
+  const { user } = useSelector((state) => state.rootReducer.user); // Данные о пользователе из стора
   const location = useLocation();
   const isUserDataOnInitLoaded = useSelector(
-    (state: RootState) => state.rootReducer.user.isUserDataOnInitLoaded
+    (state) => state.rootReducer.user.isUserDataOnInitLoaded
   );
 
   if (!isUserDataOnInitLoaded) {
