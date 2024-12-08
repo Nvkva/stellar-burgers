@@ -1,5 +1,4 @@
 import { FC, useEffect, useMemo } from 'react';
-import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
@@ -14,6 +13,8 @@ export const OrderInfo: FC = () => {
   const orderData = useSelector((state) =>
     number ? selectOrderById(state, number) : null
   );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setSelectedOrderId(number ?? null));
@@ -65,10 +66,9 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  const dispatch = useDispatch();
-
   if (!orderInfo) {
-    return <Preloader />;
+    // return <Preloader />;
+    return;
   }
 
   return <OrderInfoUI orderInfo={orderInfo} />;

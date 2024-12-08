@@ -12,16 +12,6 @@ export const IngredientDetails: FC = () => {
     id ? selectIngredientById(state, id) : null
   );
 
-  const { orders } = useSelector((state) => state.rootReducer.orders.feed);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!orders.length) {
-      dispatch(fetchOrders());
-    }
-  }, [dispatch]);
-
   if (!ingredientData) {
     return <Preloader />;
   }

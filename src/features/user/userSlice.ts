@@ -132,6 +132,9 @@ export const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+        if (!state.isUserDataOnInitLoaded) {
+          state.isUserDataOnInitLoaded = true;
+        }
       });
   }
 });

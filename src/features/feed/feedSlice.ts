@@ -1,4 +1,9 @@
-import { getFeedsApi, getOrdersApi, orderBurgerApi } from '@api';
+import {
+  getFeedsApi,
+  getOrderByNumberApi,
+  getOrdersApi,
+  orderBurgerApi
+} from '@api';
 import {
   createAsyncThunk,
   createSelector,
@@ -42,6 +47,14 @@ export const fetchOrders = createAsyncThunk('feed/fetchOrders', async () => {
   return data;
 });
 
+export const fetchOrdersById = createAsyncThunk(
+  'feed/fetchOrdersById',
+  async (id: string) => {
+    const data = await getOrderByNumberApi(Number(id));
+    return data.orders;
+  }
+);
+
 export const createOrder = createAsyncThunk(
   'feed/createOrder',
   async (ingredientsData: string[]) => {
@@ -79,7 +92,6 @@ export const feedSlice = createSlice({
       .addCase(
         fetchOrders.fulfilled,
         (state, action: PayloadAction<TOrdersData>) => {
-          console.log('action.payload :>> ', action.payload);
           state.feed = action.payload;
           state.isLoading = false;
         }
@@ -108,6 +120,7 @@ export const feedSlice = createSlice({
 
     builder
       .addCase(getUserOrders.pending, (state) => {
+        state.feed = DEFAULT_FEED_VALUE;
         state.isLoading = true;
         state.error = null;
       })
@@ -116,6 +129,20 @@ export const feedSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getUserOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
+
+    builder
+      .addCase(fetchOrdersById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrdersById.fulfilled, (state, action) => {
+        state.feed.orders = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchOrdersById.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
