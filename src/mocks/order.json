@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "order": {
+    "_id": "order12345",
+    "status": "pending",
+    "name": "Order #12345",
+    "createdAt": "2024-12-17T12:00:00Z",
+    "updatedAt": "2024-12-17T12:05:00Z",
+    "number": 12345,
+    "ingredients": ["ingredient1", "ingredient2", "ingredient3"]
+  },
+  "name": "Order #12345"
+}
