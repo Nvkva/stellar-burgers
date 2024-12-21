@@ -1,7 +1,7 @@
 describe('Burger Builder Integration Test', () => {
   beforeEach(() => {
     // Загрузка приложения
-    cy.visit('/');
+    cy.visit('http://192.168.1.137:4000/');
   });
 
   it('should allow adding ingredients, placing an order, and resetting the constructor', () => {

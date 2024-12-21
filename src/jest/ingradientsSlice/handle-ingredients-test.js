@@ -28,7 +28,10 @@ describe('Feed Slice Reducer', () => {
       ...initialState,
       feed: {
         ...initialState.feed,
-        orders: [{ id: '1', name: 'Ingredient 1' }, { id: '2', name: 'Ingredient 2' }]
+        orders: [
+          { id: '1', name: 'Ingredient 1' },
+          { id: '2', name: 'Ingredient 2' }
+        ]
       }
     };
 
@@ -36,7 +39,10 @@ describe('Feed Slice Reducer', () => {
 
     const newState = reducer(existingState, action);
 
-    expect(newState.feed.orders).not.toContainEqual({ id: '1', name: 'Ingredient 1' });
+    expect(newState.feed.orders).not.toContainEqual({
+      id: '1',
+      name: 'Ingredient 1'
+    });
     expect(newState.feed.orders).toHaveLength(1);
   });
 
@@ -65,4 +71,3 @@ describe('Feed Slice Reducer', () => {
     ]);
   });
 });
-

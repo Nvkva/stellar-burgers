@@ -22,7 +22,11 @@ describe('Feed Slice Reducer - createOrder', () => {
   });
 
   it('should update order and set isLoading to false when createOrder is fulfilled', () => {
-    const mockOrderData = { id: '1', name: 'Order 1', ingredients: ['Ingredient 1', 'Ingredient 2'] };
+    const mockOrderData = {
+      id: '1',
+      name: 'Order 1',
+      ingredients: ['Ingredient 1', 'Ingredient 2']
+    };
     const action = { type: createOrder.fulfilled.type, payload: mockOrderData };
     const newState = reducer(initialState, action);
 

@@ -5,7 +5,7 @@ describe('User Reducer - logoutUser', () => {
     user: { id: '123', name: 'Test User', email: 'test@example.com' }, // Пример начального состояния с пользователем
     isLoading: false,
     isUserDataOnInitLoaded: false,
-    error: null,
+    error: null
   };
 
   it('should handle logoutUser.pending', () => {
@@ -18,10 +18,7 @@ describe('User Reducer - logoutUser', () => {
 
   it('should handle logoutUser.fulfilled', () => {
     const action = { type: logoutUser.fulfilled.type };
-    const state = userReducer(
-      { ...initialState, isLoading: true },
-      action
-    );
+    const state = userReducer({ ...initialState, isLoading: true }, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.user).toBe(null); // Пользователь должен быть сброшен
@@ -30,10 +27,7 @@ describe('User Reducer - logoutUser', () => {
   it('should handle logoutUser.rejected', () => {
     const errorMessage = 'Failed to logout';
     const action = { type: logoutUser.rejected.type, payload: errorMessage };
-    const state = userReducer(
-      { ...initialState, isLoading: true },
-      action
-    );
+    const state = userReducer({ ...initialState, isLoading: true }, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe(errorMessage);

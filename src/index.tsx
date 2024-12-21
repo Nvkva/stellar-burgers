@@ -25,4 +25,3 @@ startMockServer().then(() => {
     </Provider>
   );
 });
-

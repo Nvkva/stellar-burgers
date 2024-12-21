@@ -11,7 +11,7 @@ describe('rootReducer', () => {
       user: null,
       isLoading: false,
       isUserDataOnInitLoaded: false,
-      error: null,
+      error: null
     };
 
     const initialIngredientsState = {}; // Замените на фактическое начальное состояние
@@ -22,7 +22,7 @@ describe('rootReducer', () => {
     expect(initialState).toEqual({
       user: initialUserState,
       ingredients: initialIngredientsState,
-      orders: initialOrdersState,
+      orders: initialOrdersState
     });
   });
 });

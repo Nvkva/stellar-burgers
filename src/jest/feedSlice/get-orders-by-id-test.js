@@ -23,7 +23,10 @@ describe('Feed Slice Reducer - fetchOrdersById', () => {
 
   it('should update feed and set isLoading to false when fetchOrdersById is fulfilled', () => {
     const mockOrdersData = [{ id: '1', name: 'Order 1' }];
-    const action = { type: fetchOrdersById.fulfilled.type, payload: mockOrdersData };
+    const action = {
+      type: fetchOrdersById.fulfilled.type,
+      payload: mockOrdersData
+    };
     const newState = reducer(initialState, action);
 
     expect(newState.isLoading).toBe(false);

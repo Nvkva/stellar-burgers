@@ -1,7 +1,7 @@
 describe('Burger Constructor - Adding Ingredient', () => {
   beforeEach(() => {
     // Открываем приложение перед каждым тестом
-    cy.visit('/');
+    cy.visit('http://192.168.1.137:4000/');
   });
 
   it('should add an ingredient to the constructor when clicked', () => {

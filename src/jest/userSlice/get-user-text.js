@@ -5,7 +5,7 @@ describe('User Reducer - getUser', () => {
     user: null,
     isLoading: false,
     isUserDataOnInitLoaded: false,
-    error: null,
+    error: null
   };
 
   it('should handle getUser.pending', () => {
@@ -17,12 +17,13 @@ describe('User Reducer - getUser', () => {
   });
 
   it('should handle getUser.fulfilled', () => {
-    const userPayload = { id: '123', name: 'Test User', email: 'test@example.com' };
+    const userPayload = {
+      id: '123',
+      name: 'Test User',
+      email: 'test@example.com'
+    };
     const action = { type: getUser.fulfilled.type, payload: userPayload };
-    const state = userReducer(
-      { ...initialState, isLoading: true },
-      action
-    );
+    const state = userReducer({ ...initialState, isLoading: true }, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.user).toEqual(userPayload); // Проверяем, что пользователь записался в state
@@ -32,10 +33,7 @@ describe('User Reducer - getUser', () => {
   it('should handle getUser.rejected', () => {
     const errorMessage = 'Failed to fetch user';
     const action = { type: getUser.rejected.type, payload: errorMessage };
-    const state = userReducer(
-      { ...initialState, isLoading: true },
-      action
-    );
+    const state = userReducer({ ...initialState, isLoading: true }, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe(errorMessage); // Проверяем, что ошибка записалась

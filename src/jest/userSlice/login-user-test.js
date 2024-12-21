@@ -5,7 +5,7 @@ const initialState = {
   user: null,
   isLoading: false,
   isUserDataOnInitLoaded: false,
-  error: null,
+  error: null
 };
 
 describe('userSlice reducers', () => {
@@ -16,7 +16,7 @@ describe('userSlice reducers', () => {
     expect(state).toEqual({
       ...initialState,
       isLoading: true,
-      error: null,
+      error: null
     });
   });
 
@@ -28,7 +28,7 @@ describe('userSlice reducers', () => {
     expect(state).toEqual({
       ...initialState,
       user: mockUser,
-      isLoading: false,
+      isLoading: false
     });
   });
 
@@ -40,7 +40,7 @@ describe('userSlice reducers', () => {
     expect(state).toEqual({
       ...initialState,
       isLoading: false,
-      error: mockError,
+      error: mockError
     });
   });
 });

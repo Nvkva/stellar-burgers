@@ -1,7 +1,7 @@
 describe('Ingredient Modal', () => {
   beforeEach(() => {
     // Открываем главную страницу перед каждым тестом
-    cy.visit('/');
+    cy.visit('http://192.168.1.137:4000/');
 
     // Дожидаемся загрузки данных об ингредиентах
     cy.intercept('GET', '**/ingredients').as('getIngredients');
