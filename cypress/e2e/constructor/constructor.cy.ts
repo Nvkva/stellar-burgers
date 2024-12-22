@@ -1,10 +1,14 @@
 describe('Burger Builder Integration Test', () => {
   beforeEach(() => {
     // Загрузка приложения
-    cy.visit('http://192.168.1.137:4000/login');
+    cy.visit('http://localhost:4000');
+    cy.window().then((win) => {
+      win.localStorage.setItem('refreshToken', 'mockRefreshToken12345');
+    });
 
-    cy.get('input[name=email]').type('kit.solt@mail.ru')
-    cy.get('input[name=password]').type(`${'qwerty'}{enter}`, { log: false })
+    cy.setCookie('accessToken', 'mockAccessToken12345');
+    cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');
+    cy.intercept('GET', '/api/auth/user', {fixture: 'user.json'});
   });
 
   it('should allow adding ingredients, placing an order, and resetting the constructor', () => {
@@ -40,58 +44,12 @@ describe('Burger Builder Integration Test', () => {
       expect(price).greaterThan(0);
     });
 
-    // Имитируем успешный запрос на оформление заказа
-    cy.intercept('POST', '/api/orders', {
-      statusCode: 200,
-      body: {
-        success: true,
-        name: "Краторный люминесцентный бургер",
-        order: {
-          ingredients: [
-            {
-              _id: "643d69a5c3f7b9001cfa093c",
-              name: "Краторная булка N-200i",
-              type: "bun",
-              proteins: 80,
-              fat: 24,
-              carbohydrates: 53,
-              calories: 420,
-              price: 1255,
-              image: "https://code.s3.yandex.net/react/code/bun-02.png",
-              image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-              image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-              __v: 0
-            },
-            {
-              _id: "643d69a5c3f7b9001cfa093e",
-              name: "Филе Люминесцентного тетраодонтимформа",
-              type: "main",
-              proteins: 44,
-              fat: 26,
-              carbohydrates: 85,
-              calories: 643,
-              price: 988,
-              image: "https://code.s3.yandex.net/react/code/meat-03.png",
-              image_mobile: "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
-              image_large: "https://code.s3.yandex.net/react/code/meat-03-large.png",
-              __v: 0
-            }
-          ],
-          _id: "67672d89750864001d3736ef",
-          owner: {
-            name: "Жак-Ив Кусто Жак-Ив",
-            email: "kit.solt@mail.ru",
-            createdAt: "2024-11-30T19:40:48.751Z",
-            updatedAt: "2024-12-03T17:47:36.991Z"
-          },
-          status: "done",
-          name: "Краторный люминесцентный бургер",
-          createdAt: "2024-12-21T21:05:13.411Z",
-          updatedAt: "2024-12-21T21:05:14.244Z",
-          number: 63730,
-          price: 2243
-        }
-      },
+
+    // Интерцепт запроса на создание заказа для проверки заголовков
+    cy.intercept('POST', '/api/orders', (req) => {
+      // Проверяем, что в заголовке Authorization есть токен
+      expect(req.headers).to.have.property('authorization', 'mockAccessToken12345');
+      req.reply({ fixture: 'order.json' });
     }).as('placeOrder');
 
     // Клик по кнопке «Оформить заказ»
@@ -111,5 +69,10 @@ describe('Burger Builder Integration Test', () => {
 
     // Проверяем, что отображается сообщение о необходимости выбора булок
     cy.get('[data-test-id="constructor-empty"]').should('contain.text', 'Выберите булки');
+  });
+
+  afterEach(() => {
+    cy.clearAllCookies();
+    cy.clearAllLocalStorage();
   });
 });

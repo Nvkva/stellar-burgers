@@ -1,16 +1,14 @@
 describe('Ingredient Modal', () => {
   beforeEach(() => {
-    // Открываем главную страницу перед каждым тестом
-    cy.visit('http://192.168.1.137:4000/login');
+    cy.visit('http://localhost:4000');
+
+    cy.intercept('GET', '/api/auth/user', {
+      fixture: 'user.json'
+    });
 
     // Дожидаемся загрузки данных об ингредиентах
-    cy.intercept('GET', '**/ingredients').as('getIngredients');
+    cy.intercept('GET', '/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');
     cy.wait('@getIngredients');
-
-    cy.get('input[name=email]').type('kit.solt@mail.ru')
-    cy.get('input[name=password]').type(`${'qwerty'}{enter}`, { log: false })
-
-    
   });
 
   it('should open the ingredient modal and display correct details', () => {
@@ -51,5 +49,10 @@ describe('Ingredient Modal', () => {
 
     // Проверяем, что модальное окно закрылось
     cy.get('[data-test-id="modal"]').should('not.exist');
+  });
+
+  afterEach(() => {
+    cy.clearAllCookies();
+    cy.clearAllLocalStorage();
   });
 });
