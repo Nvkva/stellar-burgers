@@ -28,5 +28,5 @@
       "@selectors": ["src/services/selectors"]
     }
   },
-  "include": ["src", "cypress"]
+  "include": ["src", "cypress", "cypress.d.ts"]
 }
