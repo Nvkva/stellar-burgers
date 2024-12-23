@@ -2,23 +2,12 @@ import reducer, {
   createOrder,
   fetchOrders,
   fetchOrdersById,
-  getUserOrders
+  getUserOrders,
+  initialState
 } from './feedSlice';
 import { expect } from '@jest/globals';
 
 describe('Feed Slice Reducer - createOrder', () => {
-  const initialState = {
-    selectedOrderId: null,
-    feed: {
-      orders: [],
-      total: 0,
-      totalToday: 0
-    },
-    order: null,
-    isLoading: false,
-    error: null
-  };
-
   it('should set isLoading to true when createOrder is pending', () => {
     const action = { type: createOrder.pending.type };
     const newState = reducer(initialState, action);
