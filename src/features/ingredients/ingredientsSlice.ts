@@ -84,6 +84,25 @@ export const ingredientsSlice = createSlice({
         (ingredient) => ingredient.uniqueId !== action.payload
       );
     },
+    reorderIngredients: (
+      state,
+      action: PayloadAction<{ fromIndex: number; toIndex: number }>
+    ) => {
+      const { fromIndex, toIndex } = action.payload;
+      const ingredients = state.constructor.ingredients;
+
+      if (
+        fromIndex < 0 ||
+        toIndex < 0 ||
+        fromIndex >= ingredients.length ||
+        toIndex >= ingredients.length
+      ) {
+        return; // Защита от выхода за границы массива
+      }
+
+      const [movedItem] = ingredients.splice(fromIndex, 1);
+      ingredients.splice(toIndex, 0, movedItem);
+    },
     resetConstructor: (state) => {
       // Сброс конструктора (булка и ингредиенты)
       state.constructor = {
@@ -112,6 +131,10 @@ export const ingredientsSlice = createSlice({
   }
 });
 
-export const { addIngredient, removeIngredient, resetConstructor } =
-  ingredientsSlice.actions;
+export const {
+  addIngredient,
+  removeIngredient,
+  resetConstructor,
+  reorderIngredients
+} = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

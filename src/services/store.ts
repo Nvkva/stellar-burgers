@@ -8,13 +8,12 @@ import {
 } from 'react-redux';
 
 import userReducer from '../features/user/userSlice';
-
-import ordersReduser from '../features/feed/feedSlice';
+import ordersReducer from '../features/feed/feedSlice';
 
 const rootReducer = combineReducers({
   user: userReducer, // Подключение userReducer
   ingredients: ingredientsReducer,
-  orders: ordersReduser
+  orders: ordersReducer
 });
 
 const store = configureStore({

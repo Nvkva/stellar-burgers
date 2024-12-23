@@ -27,7 +27,7 @@ interface FeedState {
   error: string | null;
 }
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   selectedOrderId: null,
   feed: DEFAULT_FEED_VALUE,
   order: null,
